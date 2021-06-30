@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <title>EMaps</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+
+</style>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}    
+#map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(210, 216, 233, 0.8);
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 10px 0 0 10px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      width: 200px;
+      height: 25px;
+      border-radius: 3px;
+    }
+    #map-overlay1 {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background: rgba(210, 214, 224, 0.8);
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 10px 0 0 10px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      width: 200px;
+      height: 25px;
+      border-radius: 3px;
+    }
+    #map-overlay2 {
+      position: absolute;
+      top: 100px;
+      left: 0;
+      background: rgba(210, 214, 224, 0.8);
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 10px 0 0 10px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      font-size: 15px;
+      width: 200px;
+      height: 250px;
+      border-radius: 3px;
+    }
+    #map-overlay3 {
+      position: absolute;
+      top: 400px;
+      left: -10px;
+      background: rgba(210, 214, 224, 0.246);
+      margin-right: 20px;
+      margin-top: 10px;
+      padding: 5px 0 0 10px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      overflow: auto;
+      width: 50px;
+      height: 100px;
+      border-radius: 2px;
+    }
+
+    .coordinates {
+background: rgba(0, 0, 0, 0.5);
+color: #fff;
+position: absolute;
+bottom: 40px;
+left: 10px;
+padding: 5px 10px;
+margin: 0;
+font-size: 11px;
+line-height: 18px;
+border-radius: 3px;
+display: none;
+}
+</style>
+</head>
+<body>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<style>
+    #geocoder-container > div {
+        min-width: 50%;
+        margin-left: 25%;
+    }
+</style>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+    <style>
+      .coordinates {
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      position: absolute;
+      bottom: 40px;
+      left: 10px;
+      padding: 5px 10px;
+      margin: 0;
+      font-size: 15px;
+      line-height: 18px;
+      border-radius: 3px;
+      display: none;
+      }
+      </style>
+<div id='map'>
+</div>
+<pre id="coordinates" class="coordinates"></pre>
+<div id='map-overlay'> Distance:
+</div>
+<div id='map-overlay1'> Estimated Time:
+</div>
+<div id='map-overlay2'> Stops:
+</div>
+<div id='map-overlay3'><center>                            
+  <button class="mdl-button mdl-js-button mdl-button--fab">
+  <i class="material-icons" onclick="addMarker()">add_location_alt</i>
+</button>
+<button class="mdl-button mdl-js-button mdl-button--fab">
+  <i class="material-icons" onclick="setStop()">where_to_vote</i>
+</button>
+<button class="mdl-button mdl-js-button mdl-button--fab">
+  <i class="material-icons" onclick="removeMarker()">wrong_location</i>
+</button></center></div>
+<div>
+<script src="js/main.js"></script>
+</body>
+</html>
