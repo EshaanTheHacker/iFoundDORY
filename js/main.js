@@ -37,6 +37,7 @@ let geocoder = new MapboxGeocoder({
     },
     mapboxgl: mapboxgl
 });
+
 // accessToken: mapboxgl.accessToken, // Set the access token
 // mapboxgl: mapboxgl, // Set the mapbox-gl instance
 // marker: false, // Do not use the default marker style
@@ -231,6 +232,26 @@ let stopsData = retrieveData(STOPS_DATA_KEY);
 if (checkData(STOPS_DATA_KEY) == true) {
     stops = stopsData;
 }
+
+function removeMarker() {
+	//confirm if the stop wants to be removed
+    
+            if (confirm('Are you sure you want to remove this stop?') == true) {
+                //removes the stop from the stop array
+                stops.pop();
+                //updates local storage.
+                storeData(stops, STOPS_DATA_KEY);
+                //reloads to update the markers
+                window.location="index.html"
+                removesMarker();
+            }
+}
+
+function removesMarker(){
+    marker1.remove();
+    window.location="index.html"
+}
+displayStops();
 // function displayStops(data) {
 //     //references
     
@@ -263,3 +284,4 @@ map.addControl(new mapboxgl.GeolocateControl({
     },
     trackUserLocation: true
     })); 
+ 
