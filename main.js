@@ -3,6 +3,8 @@
 let apiKey = "e26cc5542f9a4a37b08acf74fbfcc103";
 let url = `https://api.opencagedata.com/geocode/v1/json`;
 mapboxgl.accessToken = "pk.eyJ1IjoiZXNoYWFubSIsImEiOiJja29pNTZud3MxNXByMnFsamRiMmtnamh5In0.V9XQK4TRnWc8Wt9BqlPemw";
+const STOPS_DATA_KEY = "stopsdata";
+const COORDINATES_KEY = "coordinates";
 let map = new mapboxgl.Map({
 container: 'map', // Container ID
 style: 'mapbox://styles/mapbox/dark-v10', // Map style to use
@@ -193,6 +195,65 @@ function showData(data) {
 	// Store Stop Data.
 	storeData(stops, STOPS_DATA_KEY);
 }  
+//checkLocalStorage function
+function checkData(key) { //Name: checkData ; Purpose: see if there is something in localStorage ; Parameter: key ; Returns: ;
+    let data = localStorage.getItem(key)
+    if (data !== null) {
+        return true;
+    }
+    else
+        return false;
+
+}
+//updateLocalStorage function
+function storeData(data, key) {
+    if (typeof (data) === 'object') {
+        data = JSON.stringify(data);
+    }
+    localStorage.setItem(key, data);
+}
+
+//getStoredData function
+function retrieveData(key) {
+    let data = localStorage.getItem(key);
+    try {
+        data = JSON.parse(data);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    finally {
+        return data;
+    }
+}
+let stopsData = retrieveData(STOPS_DATA_KEY);
+
+if (checkData(STOPS_DATA_KEY) == true) {
+    stops = stopsData;
+}
+// function displayStops(data) {
+//     //references
+    
+//     let stopsRef = document.getElementById('stops');
+
+    
+//     //reseting stops queue
+//     stopsRef.innerHTML = '';
+
+//     for (let i = 1; i < 5; i++) {
+//         stopsRef.innerHTML += `<li class="mdl-list__item mdl-list__item--three-line">
+//             <span class="mdl-list__item-primary-content">
+//                 <i class="material-icons mdl-list__item-avatar">fmd_good
+//                 </i>
+//                 <span><strong>Stop ${i}:</strong> ${data[i].description}</span>
+//             </span>
+//             <span class="mdl-list__item-secondary-content">
+//                 <a class="mdl-list__item-secondary-action" onclick="removeStop(${i})"><i
+//                     class="material-icons">remove_circle</i></a>
+//             </span>
+//         </li>`;
+//     }
+// }
 
 map.addControl(new mapboxgl.NavigationControl());  
 
