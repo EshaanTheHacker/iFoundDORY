@@ -5,6 +5,7 @@ let url = `https://api.opencagedata.com/geocode/v1/json`;
 mapboxgl.accessToken = "pk.eyJ1IjoiZXNoYWFubSIsImEiOiJja29pNTZud3MxNXByMnFsamRiMmtnamh5In0.V9XQK4TRnWc8Wt9BqlPemw";
 const STOPS_DATA_KEY = "stopsdata";
 const COORDINATES_KEY = "coordinates";
+let results= [];
 let map = new mapboxgl.Map({
 container: 'map', // Container ID
 style: 'mapbox://styles/mapbox/dark-v10', // Map style to use
@@ -33,10 +34,19 @@ let coordinates = document.getElementById('coordinates');
 let geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     marker: {
-        color: 'Red'
+        color: 'Purple'
     },
+    reverseGeocode: true,
     mapboxgl: mapboxgl
+    
 });
+geocoder.on('result', function(result) {
+    console.log(result)
+    results.push(result);
+    let popup = new mapboxgl.Popup({ offset: 45 });
+		popup.setText(results);
+    ;
+  })
 
 // accessToken: mapboxgl.accessToken, // Set the access token
 // mapboxgl: mapboxgl, // Set the mapbox-gl instance
@@ -61,16 +71,6 @@ map.addSource('single-point', {
 'type': 'FeatureCollection',
 'features': []
 }
-});
- 
-
-
-   
- 
-// Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-//  Add a marker at the result's coordinates
-geocoder.on('result', function (e) {
-map.getSource('single-point').setData(e.result.geometry);
 });
 });
 
@@ -275,6 +275,30 @@ displayStops();
 //         </li>`;
 //     }
 // }
+let to = [lng, lat] //lng, lat
+let from = [lng, lat] //lng, lat 
+
+let greenMarker = new mapboxgl.Marker({
+    color: 'green'
+  })
+  .setLngLat(to) // marker position using variable 'to'
+  .addTo(map); //add marker to map
+
+let purpleMarker = new mapboxgl.Marker({
+    color: 'purple'
+  })
+  .setLngLat(from) // marker position using variable 'from'
+  .addTo(map); //add marker to map
+
+let options = {
+  units: 'miles'
+}; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
+
+let distance = turf.distance(to, from, options);
+
+let value = document.getElementById('map-overlay')
+value.innerHTML = "Distance: " + distance.toFixed([2]) + " miles"
+
 
 map.addControl(new mapboxgl.NavigationControl());  
 
