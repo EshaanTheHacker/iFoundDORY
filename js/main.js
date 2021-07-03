@@ -33,7 +33,7 @@ let coordinates = document.getElementById('coordinates');
 // Initialize the geocoder
 let geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    marker: {
+    marker3: {
         color: 'Purple'
     },
     reverseGeocode: true,
@@ -42,7 +42,8 @@ let geocoder = new MapboxGeocoder({
 });
 geocoder.on('result', function(result) {
     console.log(result)
-    results.push(result);
+    console.log(result.result.geometry.coordinates)
+    results.push(result.result.geometry.coordinates);
     let popup = new mapboxgl.Popup({ offset: 45 });
 		popup.setText(results);
     ;
@@ -119,7 +120,12 @@ function displayStops() {
 		// Display the marker.
 		marker1.addTo(map);
 		// Display the popup.
-		popup.addTo(map);}
+		popup.addTo(map);
+        console.log(stops.description);
+        
+    
+    }
+
     };
     //This function is responsible for pushing in coordinates and description into the stops array.
     function pushStop(lng, lat, description1, stops) {
@@ -145,8 +151,13 @@ function displayStops() {
             jsonp: "showData"
         };
         // Run webService request 
-        webServiceRequest(url, data);}
-
+        webServiceRequest(url, data);
+        let delayHandle=setTimeout(loadsThePageLol,1000);
+    }
+function loadsThePageLol()
+{
+    window.location= "index.html"
+}
 //This function is responsible for sending a web request for reverse geocoding
 function webServiceRequest(url, data) {
 	// Build URL parameters from data object.
@@ -192,7 +203,6 @@ function showData(data) {
 	pushStop(lng, lat, description1, stops);
 	//Display the stops when the function is run
 	displayStops();
-
 	// Store Stop Data.
 	storeData(stops, STOPS_DATA_KEY);
 }  
@@ -275,33 +285,39 @@ displayStops();
 //         </li>`;
 //     }
 // }
-let to = [lng, lat] //lng, lat
-let from = [lng, lat] //lng, lat 
+// let to = [lng, lat] //lng, lat
+// let from = [lng, lat] //lng, lat 
 
-let greenMarker = new mapboxgl.Marker({
-    color: 'green'
-  })
-  .setLngLat(to) // marker position using variable 'to'
-  .addTo(map); //add marker to map
+// let greenMarker = new mapboxgl.Marker({
+//     color: 'green'
+//   })
+//   .setLngLat(to) // marker position using variable 'to'
+//   .addTo(map); //add marker to map
 
-let purpleMarker = new mapboxgl.Marker({
-    color: 'purple'
-  })
-  .setLngLat(from) // marker position using variable 'from'
-  .addTo(map); //add marker to map
+// let purpleMarker = new mapboxgl.Marker({
+//     color: 'grey'
+//   })
+//   .setLngLat(from) // marker position using variable 'from'
+//   .addTo(map); //add marker to map
 
-let options = {
-  units: 'miles'
-}; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
+// let options = {
+//   units: 'miles'
+// }; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
 
-let distance = turf.distance(to, from, options);
+// let distance = turf.distance(to, from, options);
 
-let value = document.getElementById('map-overlay')
-value.innerHTML = "Distance: " + distance.toFixed([2]) + " miles"
+// let value = document.getElementById('map-overlay')
+// value.innerHTML = "Distance: " + distance.toFixed([2]) + " miles"
+let stopslol=[]
+stopslol.push(stops)
+console.log(stopslol);
+let stopArray = JSON.stringify(stops);
+document.getElementById("stops").innerHTML = stopArray;
+
 
 
 map.addControl(new mapboxgl.NavigationControl());  
-
+console.log(stops);
 map.addControl(new mapboxgl.GeolocateControl({
     positionOptions: {
     enableHighAccuracy: true
